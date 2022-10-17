@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="javascript.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Map App</title>
+    <script src="https://cdn.master.co/css"></script>
+  </head>
+  <body>
+    <div id="map" class="position:absolute top:0 left:0 h:100% w:100%"></div>
+    <div
+      class="position:absolute z-index:10 flex center-content w:44 bottom:10 left:30"
+    >
+      <div id="layers" class="flex gap:10">
+        <label>
+          <input type="radio" name="layer" value="base" checked />
+          Base
+        </label>
+        <label>
+          <input type="radio" name="layer" value="raster" />
+          Raster
+        </label>
+      </div>
+    </div>
+    <div class="position:absolute right:10 top:10 bg:gray-90 p:10">
+      <div id="shapes" class="flex flex-direction:column justify-content:start gap:10">
+        <label>
+          <input type="radio" name="shapes" value="line" />
+          Line
+        </label>
+        <label>
+          <input type="radio" name="shapes" value="polygon" />
+          Polygon
+        </label>
+        <label>
+          <input type="radio" name="shapes" value="square" />
+          Square
+        </label>
+        <!-- <label>
+          <input type="radio" name="shapes" value="point" />
+          <img src="/marker.png" width="20px" height="20px" />
+        </label> -->
+      </div>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

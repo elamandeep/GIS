@@ -24,7 +24,10 @@
       </div>
     </div>
     <div class="position:absolute right:10 top:10 bg:gray-90 p:10">
-      <div id="shapes" class="flex flex-direction:column justify-content:start gap:10">
+      <div
+        id="shapes"
+        class="flex flex-direction:column justify-content:start gap:10"
+      >
         <label>
           <input type="radio" name="shapes" value="line" />
           Line
@@ -37,10 +40,27 @@
           <input type="radio" name="shapes" value="square" />
           Square
         </label>
-        <!-- <label>
+        <label>
           <input type="radio" name="shapes" value="point" />
-          <img src="/marker.png" width="20px" height="20px" />
-        </label> -->
+          <img src="/medium.png" width="20px" height="20px" />
+        </label>
+      </div>
+    </div>
+
+    <div class="position:absolute right:10 bottom:40 bg:white p:10">
+      <div
+        id="format"
+        class="flex flex-direction:column justify-content:start gap:10"
+      >
+        <label>
+          <input type="radio" name="format" value="geojson" />
+          GeoJSON
+        </label>
+        <label>
+          <input type="radio" name="format" value="kml" />
+          KML
+        </label>
+
       </div>
     </div>
 

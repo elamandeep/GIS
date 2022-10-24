@@ -25,7 +25,7 @@ export const markerVector = new VectorLayer({
   map: mapObj,
   style: new Style({
     image: new Icon({
-      src: "/medium.png",
+      src: "./medium.png",
     }),
   }),
 });

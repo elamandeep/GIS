@@ -1,10 +1,11 @@
 import { Map, View } from "ol";
 import { transform } from "ol/proj";
-import { raster, base } from "./Layers";
+import { baseLayerGroup , sublayer1 , sublayer2, sublayer3 } from "./Layers";
 
 const mapObj = new Map({
   target: "map",
-  layers: [base, raster],
+  layers: [baseLayerGroup ,sublayer3 , sublayer2, sublayer1],
+  controls:[],
   view: new View({
     center: transform(
       [77.6953125, 24.206889622398023],
@@ -15,4 +16,4 @@ const mapObj = new Map({
   }),
 });
 
-export default mapObj;
+export default mapObj

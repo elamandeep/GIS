@@ -11,24 +11,113 @@ import {
   markerSource,
   markerVector,
 } from "./js/shapes";
-import { Feature } from "ol";
 import GeoJSON from "ol/format/GeoJSON";
+import Group from "ol/layer/group";
 import KML from "ol/format/KML";
-import TopoJSON from "ol/format/TopoJSON";
-import {
-  downloadKml,
-  downloadgeoJson,
-  downloadtopoJson,
-} from "./js/downloader";
+
+import { downloadKml, downloadgeoJson } from "./js/downloader";
+
+function checkLayers(value, checked) {
+  mapObj.getLayers().array_.forEach((elm) => {
+    let subLayerName = elm.get("name");
+
+    if (subLayerName !== "Basemap") {
+      if (checked && subLayerName === value) {
+        elm.setVisible(true);
+      } else if (value === subLayerName) {
+        elm.setVisible(false);
+      } else {
+        console.log("Layer not present");
+      }
+    }
+  });
+}
+
+const temp = document.querySelector("#temp");
+const selectedLayer = document.querySelector("select");
+
+selectedLayer.addEventListener("change", (e) => {
+  let value = e.target.value;
+
+  mapObj.getLayers().array_.forEach((elm, index) => {
+    let subLayerName = elm.get("name");
+    let isLayerVisible = elm.getVisible();
+    if (subLayerName !== "Basemap") {
+      if (value !== "sublayer") {
+        if (subLayerName === value) {
+          temp.innerHTML = `
+          <tr>
+              <th>1</th>
+              <th>${subLayerName}</th>
+              <th >${isLayerVisible ? "active" : "Inactive"}</th>
+            </tr>
+          `;
+        }
+      } else {
+        let val = mapObj.getLayers().array_.map((elm, index) => {
+
+          return `
+            <tr>
+            <th>${index}</th>
+            <th>${elm.get("name")}</th>
+            <th> ${elm.getVisible() ? "active" : "Inactive"} </th>
+          </tr>
+            `;
+        });
+
+        temp.innerHTML = val.slice(2,4).join('')
+      }
+    }
+  });
+});
+
+const sublayers = document.querySelectorAll("input[name='sublayer']");
+
+for (let index = 0; index < sublayers.length; index++) {
+  sublayers[index].addEventListener("click", (e) => {
+    let checked = e.target.checked;
+    let value = e.target.value;
+
+    if (value === "sublayer" && checked === true) {
+      for (let j = 1; j < sublayers.length; j++) {
+        let value = sublayers[j].value;
+        if (value !== "sublayer1") {
+          sublayers[j].checked = true;
+          let checked = sublayers[j].checked;
+          checkLayers(value, checked);
+        }
+      }
+    } else if (value === "sublayer" && checked === false) {
+      for (let j = 1; j < sublayers.length; j++) {
+        let value = sublayers[j].value;
+        if (value !== "sublayer1") {
+          sublayers[j].checked = false;
+          let checked = sublayers[j].checked;
+          checkLayers(value, checked);
+        }
+      }
+    }
+
+    checkLayers(value, checked);
+  });
+}
 
 // layer switcher
+
 const layers = document.querySelector("#layers");
 
 layers.addEventListener("change", (e) => {
   let value = e.target.value;
+
+  //window.alllayers = mapObj.getAllLayers()
+
   mapObj.getLayers().array_.forEach((elm) => {
-    const layerName = elm.get("name");
-    elm.setVisible(layerName === value);
+    if (elm instanceof Group) {
+      elm.values_.layers.array_.forEach((layerGroupItem) => {
+        const layerName1 = layerGroupItem.get("name");
+        layerGroupItem.setVisible(layerName1 === value);
+      });
+    }
   });
 });
 
@@ -111,6 +200,8 @@ shapes.addEventListener("change", (e) => {
       console.log(" Not in option ");
       break;
   }
+
+  e.target.checked = false;
 });
 
 // download data
@@ -134,12 +225,6 @@ const getGeoJson = (features) => {
     i.properties = {};
   }
   return JSON.stringify(parseJson);
-};
-
-const getTopoJson = (features) => {
-  const formattopojson = new TopoJSON();
-  const topojson = formattopojson.writeFeatures(features);
-  return topojson;
 };
 
 const getAllfeatures = (lineVal, squareVal, polygonVal, markerVal) => {
@@ -175,12 +260,6 @@ format.addEventListener("change", (e) => {
     case "kml":
       const kml = getKML(allFeatures);
       downloadKml(kml);
-      break;
-
-    case "topojson":
-      const topojson = getTopoJson(allFeatures);
-      console.log(topojson);
-      // downloadtopoJson(topojson)
       break;
 
     case "geojson":

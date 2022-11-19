@@ -12,7 +12,7 @@ import {
   markerVector,
 } from "./js/shapes";
 import GeoJSON from "ol/format/GeoJSON";
-import Group from "ol/layer/group";
+// import Group from "ol/layer/group";
 import KML from "ol/format/KML";
 
 import { downloadKml, downloadgeoJson } from "./js/downloader";
@@ -112,7 +112,7 @@ layers.addEventListener("change", (e) => {
   //window.alllayers = mapObj.getAllLayers()
 
   mapObj.getLayers().array_.forEach((elm) => {
-    if (elm instanceof Group) {
+    if (elm instanceof ol.layer.Group) {
       elm.values_.layers.array_.forEach((layerGroupItem) => {
         const layerName1 = layerGroupItem.get("name");
         layerGroupItem.setVisible(layerName1 === value);

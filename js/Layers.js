@@ -1,8 +1,9 @@
 import TileLayer from "ol/layer/Tile";
-// import Group from "ol/layer/group";
+import LayerGroup from 'ol/layer/Group';
 import TileImage from "ol/source/TileImage";
 import OSM from "ol/source/OSM";
 import TileWMS from "ol/source/TileWMS";
+
 
 
 const base = new TileLayer({
@@ -22,7 +23,7 @@ const raster = new TileLayer({
   visible: false,
 });
 
-export const baseLayerGroup = new ol.layer.Group({
+export const baseLayerGroup = new LayerGroup({
   title: "Basemap",
   name: "Basemap",
   layers: [base, raster],
